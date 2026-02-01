@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Card</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            height: 100vh;
+            min-height: -webkit-fill-available;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        /* Fix for mobile browsers */
+        html {
+            height: -webkit-fill-available;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            height: 100vh;
+            min-height: -webkit-fill-available;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+            line-height: 1.2;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            position: relative;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 1.5rem 4rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            transform: scale(1.1);
+            animation: pulse 2s infinite;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-yes::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            border: 2px dashed transparent;
+            border-radius: 1rem;
+            pointer-events: none;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.2);
+            box-shadow: 0 15px 35px rgba(245, 87, 108, 0.4);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 10px 25px rgba(245, 87, 108, 0.3);
+            }
+            50% {
+                box-shadow: 0 15px 40px rgba(245, 87, 108, 0.5);
+            }
+        }
+
+        .btn-no {
+            background: rgba(255, 255, 255, 0.9);
+            color: #667eea;
+            border: 2px solid rgba(255, 255, 255, 1);
+            position: relative;
+            font-weight: 500;
+            z-index: 100;
+        }
+
+        .btn-no.floating {
+            position: fixed;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 100;
+        }
+
+        .btn-no:hover {
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .celebration {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1000;
+            animation: fadeInScale 0.5s ease;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem 4rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .celebration h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-top: 1rem;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .heart {
+            color: #ff69b4;
+            animation: heartBeat 1s infinite;
+            font-size: 4rem;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+        }
+
+        /* Tablet and smaller screens */
+        @media (max-width: 1024px) {
+            h1 {
+                font-size: 3rem;
+            }
+
+            .btn-yes {
+                font-size: 1.35rem;
+                padding: 1.35rem 3.5rem;
+            }
+        }
+
+        /* Mobile devices */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2.25rem;
+                margin-bottom: 2rem;
+            }
+
+            .button-container {
+                flex-direction: column;
+                gap: 1.5rem;
+                align-items: center;
+                width: 100%;
+            }
+
+            .btn-yes {
+                font-size: 1.25rem;
+                padding: 1.25rem 3rem;
+                width: auto;
+            }
+
+            .btn {
+                font-size: 1.1rem;
+                padding: 1rem 2.5rem;
+            }
+
+            .btn-yes::before {
+                top: -15px;
+                left: -15px;
+                right: -15px;
+                bottom: -15px;
+            }
+
+            .celebration {
+                padding: 2rem 2.5rem;
+                width: 90%;
+                max-width: 400px;
+            }
+
+            .celebration h2 {
+                font-size: 1.5rem;
+            }
+
+            .heart {
+                font-size: 3rem;
+            }
+        }
+
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.75rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .btn-yes {
+                font-size: 1.1rem;
+                padding: 1.1rem 2.5rem;
+            }
+
+            .btn {
+                font-size: 1rem;
+                padding: 0.875rem 2rem;
+            }
+
+            .celebration {
+                padding: 1.5rem 2rem;
+                width: 95%;
+            }
+
+            .celebration h2 {
+                font-size: 1.25rem;
+            }
+
+            .heart {
+                font-size: 2.5rem;
+            }
+
+            .celebration p {
+                font-size: 0.875rem !important;
+            }
+        }
+
+        /* Very small devices */
+        @media (max-width: 360px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .btn-yes {
+                font-size: 1rem;
+                padding: 1rem 2rem;
+            }
+
+            .btn {
+                font-size: 0.95rem;
+                padding: 0.75rem 1.75rem;
+            }
+        }
+
+        /* Landscape orientation on mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            h1 {
+                font-size: 1.75rem;
+                margin-bottom: 1rem;
+            }
+
+            .button-container {
+                flex-direction: row;
+                gap: 1.5rem;
+            }
+
+            .celebration {
+                padding: 1.5rem 2rem;
+            }
+
+            .celebration h2 {
+                font-size: 1.25rem;
+            }
+
+            .heart {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Livya, Will you be my valentine?</h1>
+
+        <div class="button-container" id="buttonContainer">
+            <button class="btn btn-yes" id="yesBtn">Yes! 💕</button>
+            <button class="btn btn-no" id="noBtn">No</button>
+        </div>
+    </div>
+
+    <div class="celebration" id="celebration">
+        <div class="heart">❤️</div>
+        <h2>Yay! I'm so happy! 💕</h2>
+        <p style="margin-top: 1rem; font-size: 1rem; color: #667eea;">Sending you a special postcard...</p>
+    </div>
+
+    <!-- Hidden Formspree form -->
+    <form
+        id="valentineForm"
+        action="https://formspree.io/f/xdadgpvb"
+        method="POST"
+        style="display: none;"
+    >
+        <input type="email" name="email" value="glinzac@gmail.com">
+        <input type="text" name="_subject" value="💕 She Said YES! - Valentine's Day">
+        <textarea name="message" id="emailMessage"></textarea>
+        <input type="hidden" name="_template" value="box">
+    </form>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const celebration = document.getElementById('celebration');
+        const buttonContainer = document.getElementById('buttonContainer');
+
+        // Check if two rectangles overlap with padding
+        function checkCollision(rect1, rect2, padding = 20) {
+            return !(rect1.right + padding < rect2.left ||
+                     rect1.left - padding > rect2.right ||
+                     rect1.bottom + padding < rect2.top ||
+                     rect1.top - padding > rect2.bottom);
+        }
+
+        // Function to handle No button movement
+        function moveNoButton(clientX, clientY) {
+            const btnRect = noBtn.getBoundingClientRect();
+            const btnCenterX = btnRect.left + btnRect.width / 2;
+            const btnCenterY = btnRect.top + btnRect.height / 2;
+
+            const mouseX = clientX;
+            const mouseY = clientY;
+
+            const distanceX = mouseX - btnCenterX;
+            const distanceY = mouseY - btnCenterY;
+            const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+            // If cursor is within 150px, move the button away
+            if (distance < 150) {
+                // Switch to fixed positioning if not already
+                if (!noBtn.classList.contains('floating')) {
+                    noBtn.classList.add('floating');
+                    noBtn.style.left = btnRect.left + 'px';
+                    noBtn.style.top = btnRect.top + 'px';
+                }
+
+                const angle = Math.atan2(distanceY, distanceX);
+                const repelDistance = 250;
+
+                let newX = btnCenterX - Math.cos(angle) * repelDistance;
+                let newY = btnCenterY - Math.sin(angle) * repelDistance;
+
+                // Get Yes button boundaries with extra padding
+                const yesRect = yesBtn.getBoundingClientRect();
+                const yesBoundary = {
+                    left: yesRect.left - 30,
+                    right: yesRect.right + 30,
+                    top: yesRect.top - 30,
+                    bottom: yesRect.bottom + 30
+                };
+
+                // Create a test rectangle for the new position
+                const testRect = {
+                    left: newX,
+                    right: newX + btnRect.width,
+                    top: newY,
+                    bottom: newY + btnRect.height
+                };
+
+                // Check if new position would collide with Yes button
+                if (checkCollision(testRect, yesBoundary)) {
+                    // Calculate deflection - move to opposite side
+                    const yesCenter = {
+                        x: yesRect.left + yesRect.width / 2,
+                        y: yesRect.top + yesRect.height / 2
+                    };
+
+                    const deflectAngle = Math.atan2(btnCenterY - yesCenter.y, btnCenterX - yesCenter.x);
+
+                    newX = yesCenter.x + Math.cos(deflectAngle) * 300;
+                    newY = yesCenter.y + Math.sin(deflectAngle) * 300;
+                }
+
+                // Keep button within viewport with some padding
+                const padding = 20;
+                const maxX = window.innerWidth - btnRect.width - padding;
+                const maxY = window.innerHeight - btnRect.height - padding;
+
+                newX = Math.max(padding, Math.min(newX, maxX));
+                newY = Math.max(padding, Math.min(newY, maxY));
+
+                noBtn.style.left = newX + 'px';
+                noBtn.style.top = newY + 'px';
+            }
+        }
+
+        // Mouse event for desktop
+        document.addEventListener('mousemove', (e) => {
+            moveNoButton(e.clientX, e.clientY);
+        });
+
+        // Touch event for mobile devices
+        document.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                moveNoButton(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        });
+
+        // Touch start event for mobile
+        document.addEventListener('touchstart', (e) => {
+            if (e.touches.length > 0) {
+                moveNoButton(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        });
+
+        // Yes button click handler
+        yesBtn.addEventListener('click', () => {
+            celebration.style.display = 'block';
+
+            // Create heart rain effect
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    createHeart();
+                }, i * 100);
+            }
+
+            // Get current date and time
+            const now = new Date();
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                timeZoneName: 'short'
+            };
+            const formattedDateTime = now.toLocaleString('en-US', options);
+
+            // Create the postcard email message
+            const emailMessage = `🌹 VALENTINE'S DAY POSTCARD 🌹
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💖 SHE SAID YES! 💖
+
+Dear Future Valentine,
+
+This is to officially inform you that Livya has said YES to being your Valentine!
+
+The moment has been captured on this special day, and hearts are celebrating all around!
+
+🎉 Celebration Status: ACTIVE
+💕 Hearts Falling: EVERYWHERE
+✨ Happiness Level: MAXIMUM
+
+This postcard was automatically sent from your interactive Valentine's card the moment she clicked the "Yes!" button.
+
+Wishing you both a wonderful Valentine's Day filled with love, joy, and beautiful moments together!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Sent with love on ${formattedDateTime}
+From: Your Interactive Valentine's Card 💌
+
+P.S. The "No" button never stood a chance! 😊`;
+
+            // Set the email message
+            document.getElementById('emailMessage').value = emailMessage;
+
+            // Submit the form to send postcard email
+            const form = document.getElementById('valentineForm');
+            setTimeout(() => {
+                form.submit();
+            }, 1000); // Wait 1 second before sending so user sees celebration first
+        });
+
+        // Create falling hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * window.innerWidth + 'px';
+            heart.style.top = '-50px';
+            heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+            heart.style.zIndex = '999';
+            heart.style.pointerEvents = 'none';
+            heart.style.animation = `fall ${Math.random() * 3 + 2}s linear`;
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        // Add falling animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(${window.innerHeight + 100}px) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
